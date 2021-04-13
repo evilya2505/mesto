@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 927px) {
   .profile__info {
-    margin-top: 26px;
+    margin: 26px auto 0;
     grid-template-columns: auto 1fr;
   }
 }
