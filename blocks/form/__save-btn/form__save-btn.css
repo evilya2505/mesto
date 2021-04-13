@@ -1,9 +1,10 @@
 .form__save-btn {
   margin: 48px 0 37px;
   min-height: 50px;
-  border: none;
   background-color: black;
   color: white;
+  border: none;
+  border-radius: 2px;
   font-size: 18px;
   line-height: 22px;
   font-weight: normal;
