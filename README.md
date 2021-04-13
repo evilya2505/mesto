@@ -17,4 +17,4 @@
 
 ## GitHub Pages
 
-* [Ссылка на GitHub Pages](https://evilya2505.github.io/russian-travel/)
+* [Ссылка на GitHub Pages](https://evilya2505.github.io/mesto/)
