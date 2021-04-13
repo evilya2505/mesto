@@ -1,0 +1,22 @@
+.form__name {
+  font-family: inherit;
+  line-height: 17px;
+  font-size: 14px;
+  margin: 54px 0 0;
+  border: none;
+  padding: 0 1px 13px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.form__name::placeholder {
+  line-height: 17px;
+  font-size: 14px;
+  font-weight: normal;
+  color: black;
+}
+
+@media screen and (max-width: 574px) {
+  .form__name  {
+    margin: 75px 0 0;
+  }
+}
