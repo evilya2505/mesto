@@ -7,13 +7,18 @@
   min-width: 40px;
   min-height: 40px;
   position: absolute;
-  right: -48px;
-  top: -42px;
+  right: -40px;
+  top: -40px;
   cursor: pointer;
   transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
 }
 
 .popup__close-btn:hover {
+  -webkit-transition: opacity .5s linear 0s;
+  -o-transition: opacity .5s linear 0s;
   transition: opacity .5s linear 0s;
   opacity: .6;
 }

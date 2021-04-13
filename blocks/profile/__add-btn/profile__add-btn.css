@@ -6,7 +6,6 @@
   min-width: 150px;
   min-height: 50px;
   border: none;
-  border-radius: 2px;
   background-color: transparent;
   color: white;
   margin-left: auto;
@@ -14,6 +13,8 @@
 }
 
 .profile__add-btn:hover {
+  -webkit-transition: opacity .5s linear 0s;
+  -o-transition: opacity .5s linear 0s;
   transition: opacity .5s linear 0s;
   opacity: .6;
 }
