@@ -4,8 +4,8 @@ let btnClose = document.querySelector('.popup__close-btn');
 let profileName = document.querySelector('.profile__name');
 let profileOccupation = document.querySelector('.profile__occupation');
 let formElement = document.querySelector('.form');
-let inputName = document.querySelector('.form__name');
-let inputOccupation = document.querySelector('.form__occupation');
+let inputName = document.querySelector('.form__item_el_name');
+let inputOccupation = document.querySelector('.form__item_el_occupation');
 
 function openPopup() {
   inputOccupation.value = profileOccupation.textContent;
@@ -17,7 +17,7 @@ function closePopup() {
   popupWindow.classList.remove('popup_opened');
 }
 
-function formSubmitHandler(evt) {
+function changeInfo(evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
   profileOccupation.textContent = inputOccupation.value;
@@ -28,7 +28,7 @@ btnClose.addEventListener('click', closePopup);
 
 btnEdit.addEventListener('click', openPopup);
 
-formElement.addEventListener('submit', formSubmitHandler);
+formElement.addEventListener('submit', changeInfo);
 
 
 

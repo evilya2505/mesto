@@ -10,12 +10,12 @@
   color: white;
   margin-left: auto;
   cursor: pointer;
-}
-
-.profile__add-btn:hover {
   -webkit-transition: opacity .5s linear 0s;
   -o-transition: opacity .5s linear 0s;
   transition: opacity .5s linear 0s;
+}
+
+.profile__add-btn:hover {
   opacity: .6;
 }
 

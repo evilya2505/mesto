@@ -1,5 +1,5 @@
 .form__input-container {
-  margin: 0;
+  margin: 49px 0 0;
   padding: 0;
   border: none;
   display: -webkit-box;
@@ -9,4 +9,10 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+@media screen and (max-width: 574px) {
+  .form__input-container   {
+    margin: 75px 0 0;
+  }
 }

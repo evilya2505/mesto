@@ -9,7 +9,5 @@
 @media screen and (max-width: 927px) {
   .profile__info {
     margin: 26px auto 0;
-    -ms-grid-columns: auto 1fr;
-    grid-template-columns: auto 1fr;
   }
 }
