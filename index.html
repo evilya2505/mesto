@@ -33,48 +33,6 @@
     <!-- Cards Section -->
     <section class="cards content__cards">
       <ul class="cards__list">
-        <li class="card">
-          <img src="images/kirill-pershin-1088404-unsplash.jpg" alt="изображение Карачаевск" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Карачаевск</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="images/kirill-pershin-1404681-unsplash.jpg" alt="изображение горы Эльбрус" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="images/kirill-pershin-1556355-unsplash.jpg" alt="изображение Домбай" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Домбай</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="images/kirill-pershin-1404681-unsplash.jpg" alt="изображение горы Эльбрус" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="images/kirill-pershin-1556355-unsplash.jpg" alt="изображение Домбай" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Домбай</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="images/kirill-pershin-1088404-unsplash.jpg" alt="изображение Карачаевск" class="card__image">
-          <div class="card__info">
-            <h2 class="card__title">Карачаево-Черкессия</h2>
-            <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
-          </div>
-        </li>
       </ul>
     </section>
     <!-- Cards Section -->
@@ -87,11 +45,11 @@
   </footer>
   <!-- Footer Section -->
 
-  <!-- Popup -->
-  <div class="popup">
+  <!-- Information Edit Popup -->
+  <div class="popup popup-edit">
     <div class="popup__container">
-    <button aria-label="закрыть окно редактирования профиля" type="button" class="popup__close-btn"></button>
-      <form name="info" class="form popup__form">
+    <button aria-label="закрыть окно редактирования профиля" type="button" class="popup__close-btn popup-edit__close-btn"></button>
+      <form name="changeInfo" class="form popup__form form-info">
         <h2 class="form__title">Редактировать профиль</h2>
         <fieldset class="form__input-container">
           <input type="text" name="name" placeholder="Имя" class="form__item form__item_el_name" >
@@ -101,7 +59,48 @@
       </form>
     </div>
   </div>
-  <!-- Popup -->
+  <!-- Information Edit Popup -->
+
+  <!-- Add Card Popup -->
+  <div class="popup popup-add">
+    <div class="popup__container">
+    <button aria-label="закрыть окно добавление карточки" type="button" class="popup__close-btn popup-add__close-btn"></button>
+      <form name="addCard" class="form popup__form form-add">
+        <h2 class="form__title">Новое место</h2>
+        <fieldset class="form__input-container">
+          <input type="text" name="place-name" placeholder="Название" class="form__item form__item_el_place-name" >
+          <input type="text" name="link" placeholder="Ссылка на картинку" class="form__item form__item_el_link" >
+          <button type="submit" class="form__save-btn">Создать</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <!-- Add Card Popup -->
+
+  <!-- Photo Popup -->
+  <div class="popup popup-photo">
+    <div class="popup__container popup-photo__container">
+      <button aria-label="закрыть фотографию" type="button" class="popup__close-btn popup-photo__close-btn"></button>
+      <div class="popup-photo__image-container">
+        <img src="" alt="" class="popup-photo__image">
+        <p class="popup-photo__title"></p>
+      </div>
+    </div>
+  </div>
+  <!-- Photo Popup -->
+
+  <!-- Card Template  -->
+  <template id="card-template">
+    <li class="card">
+      <img src="" alt="" class="card__image">
+      <button aria-label="удалить карточку" class="card__delete-btn"></button>
+      <div class="card__info">
+        <h2 class="card__title"></h2>
+        <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
+      </div>
+    </li>
+  </template>
+  <!-- Card Template  -->
   <script src="scripts/script.js"></script>
 </body>
 </html>

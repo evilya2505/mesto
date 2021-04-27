@@ -1,10 +1,13 @@
-.card__like-btn {
-  background-image: url(../../../images/like-disabled.svg);
+.card__delete-btn {
+  background-image: url(../../../images/remove-icon.svg);
+  position: absolute;
+  top: 18px;
+  right: 15px;
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0;
-  width: 22px;
-  height: 19px;
+  width: 18px;
+  height: 19.3px;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -13,14 +16,7 @@
   transition: opacity .5s linear 0s;
 }
 
-.card__like-btn:active {
-  outline: none;
-}
-
-.card__like-btn:focus {
-  outline: none;
-}
-
-.card__like-btn:hover {
+.card__delete-btn:hover {
   opacity: 0.5;
 }
+
