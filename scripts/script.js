@@ -87,7 +87,7 @@ function fillPhotoPopupInfo(photoIndex, nameIndex) {
   popupPhotoImageName.textContent = nameIndex;
 }
 
-// Изменяет имя и род занятий пользователя, закрывает модальное окно редактирования информации
+// Изменяет информацию о пользователе, закрывает модальное окно редактирования информации
 function changeInfo(evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
@@ -119,7 +119,7 @@ function addCard(namePlace, link) {
   // Отображение карточки на странице
   cards.prepend(cardElement);
 
-  // --- Добавление обработчиков событий для карточки ---
+  // --- Добавление обработчиков событий ---
 
   // Событие клика на лайк - добавление/удаление класса card__like-btn_active
   cardElement.querySelector('.card__like-btn').addEventListener('click', evt => {
@@ -136,7 +136,7 @@ function addCard(namePlace, link) {
   });
 };
 
-// ----- Добавление обработчиков событий для кнопок на странице -----
+// ----- Добавление обработчиков событий -----
 
 btnEdit.addEventListener('click', fillInputFields);
 btnEdit.addEventListener('click', () => {
