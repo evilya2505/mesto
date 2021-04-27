@@ -54,7 +54,7 @@ initialCards.reverse();
 
 // Добавление начальных карточек на страницу
 initialCards.forEach(card => {
-  addCard(card.placeName, card.link);
+  addNewCard(card.placeName, card.link);
 });
 
 // ----- Функции -----
@@ -101,23 +101,23 @@ function saveCard(evt) {
   const newCardImageLink = inputLink.value;
 
   evt.preventDefault();
-  addCard(newCardName, newCardImageLink);
+  addNewCard(newCardName, newCardImageLink);
   closePopup(popupAdd);
 }
 
-// Добавляет карточки на страницу
-function addCard(namePlace, link) {
+// Создает карточки
+function createNewCard(namePlace, link) {
   // Получение содержимого заготовки вёрстки карточки
-  const cardTemplate = document.querySelector('#card-template').content,
+  const cardTemplate = document.querySelector('#card-template').content;
   // Клонирование содержимого заготовки вёрски карточки
-        cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  // Сохранение элемента изображения карточки в переменной
+  const cardImage = cardElement.querySelector('.card__image');
 
   // Наполнение карточки содержимым
-  cardElement.querySelector('.card__image').src = link;
-  cardElement.querySelector('.card__image').alt = `изображение ${namePlace}`;
+  cardImage.src = link;
+  cardImage.alt = `изображение ${namePlace}`;
   cardElement.querySelector('.card__title').textContent = namePlace;
-  // Отображение карточки на странице
-  cards.prepend(cardElement);
 
   // --- Добавление обработчиков событий ---
 
@@ -130,11 +130,21 @@ function addCard(namePlace, link) {
     cardElement.remove();
   });
   // Событие клика на изображение - открытие модального окна с изображением
-  cardElement.querySelector('.card__image').addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
     fillPhotoPopupInfo(link, namePlace);
     openPopup(popupPhoto);
   });
+
+  return cardElement;
 };
+
+// Отображение элемента на странице
+function addNewCard(namePlace, link) {
+  const cardElement = createNewCard(namePlace, link);
+
+  // Добавляет элемент на страницу в начало node
+  cards.prepend(cardElement);
+}
 
 // ----- Добавление обработчиков событий -----
 
