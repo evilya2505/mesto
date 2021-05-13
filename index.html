@@ -49,11 +49,13 @@
   <div class="popup popup-edit">
     <div class="popup__container">
     <button aria-label="закрыть окно редактирования профиля" type="button" class="popup__close-btn popup-edit__close-btn"></button>
-      <form name="changeInfo" class="form popup__form form-info">
+      <form name="changeInfo" class="form popup__form form-info" novalidate>
         <h2 class="form__title">Редактировать профиль</h2>
         <fieldset class="form__input-container">
-          <input type="text" name="name" placeholder="Имя" class="form__item form__item_el_name" >
-          <input type="text" name="occupation" placeholder="О себе" class="form__item form__item_el_occupation" >
+          <input type="text" name="name" placeholder="Имя" class="form__item form__item_el_name" minlength="2" maxlength="40" required>
+          <span class="form__input-error name-input-error"></span>
+          <input type="text" name="occupation" placeholder="О себе" class="form__item form__item_el_occupation" minlength="2" maxlength="200" required>
+          <span class="form__input-error occupation-input-error"></span>
           <button type="submit" class="form__save-btn">Сохранить</button>
         </fieldset>
       </form>
@@ -65,11 +67,13 @@
   <div class="popup popup-add">
     <div class="popup__container">
     <button aria-label="закрыть окно добавление карточки" type="button" class="popup__close-btn popup-add__close-btn"></button>
-      <form name="addCard" class="form popup__form form-add">
+      <form name="addCard" class="form popup__form form-add" novalidate>
         <h2 class="form__title">Новое место</h2>
         <fieldset class="form__input-container">
-          <input type="text" name="place-name" placeholder="Название" class="form__item form__item_el_place-name" >
-          <input type="text" name="link" placeholder="Ссылка на картинку" class="form__item form__item_el_link" >
+          <input type="text" name="place" placeholder="Название" class="form__item form__item_el_place-name" minlength="2" maxlength="30" required>
+          <span class="form__input-error place-input-error"></span>
+          <input type="url" name="link" placeholder="Ссылка на картинку" class="form__item form__item_el_link" required>
+          <span class="form__input-error link-input-error"></span>
           <button type="submit" class="form__save-btn">Создать</button>
         </fieldset>
       </form>
@@ -103,5 +107,6 @@
   </template>
   <!-- Card Template  -->
   <script src="scripts/script.js"></script>
+  <script src="scripts/validation.js"></script>
 </body>
 </html>

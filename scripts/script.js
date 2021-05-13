@@ -9,15 +9,16 @@ const popupAdd = document.querySelector('.popup-add');
 const popupPhotoImageName = document.querySelector('.popup-photo__title');
 const profileName = document.querySelector('.profile__name');
 const profileOccupation = document.querySelector('.profile__occupation');
-const formInfo = document.querySelector('.form-info');
-const formAdd = document.querySelector('.form-add');
-const inputName = document.querySelector('.form__item_el_name');
-const inputOccupation = document.querySelector('.form__item_el_occupation');
-const inputPlaceName = document.querySelector('.form__item_el_place-name');
-const inputLink = document.querySelector('.form__item_el_link');
+const formInfo = document.forms.changeInfo;
+const formAdd = document.forms.addCard;
+const inputName = formInfo.elements.name;
+const inputOccupation = formInfo.elements.occupation;
+const inputPlaceName = formAdd.elements.place;
+const inputLink = formAdd.elements.link;
 const popupPhotoImage = document.querySelector('.popup-photo__image');
 const popupPhoto = document.querySelector('.popup-photo');
 const cards = document.querySelector('.cards__list');
+const popupElements = document.querySelectorAll('.popup');
 
 // Шесть карточек «из коробки»
 const initialCards = [
@@ -59,14 +60,36 @@ initialCards.forEach(card => {
 
 // ----- Функции -----
 
-// Добавляет класс popup_opened
+// Открывает модальное окно
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
+
+  // Добавляет слушатель событий, закрывающий модальное окно по нажатию на Esc
+  window.addEventListener('keydown', checkEscButton);
 }
 
-// Удаляет класс popup_opened
+// Закрывает модальное окно
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
+
+  // Удаляет слушатель событий, закрывающий модальное окно по нажатию на Esc
+  window.removeEventListener('keydown', checkEscButton);
+}
+
+// Закрытие попапа при нажатии клавиши Esc
+function checkEscButton(evt) {
+  const currentPopupElement = document.querySelector('.popup_opened');
+
+  if (evt.key === 'Escape') {
+    closePopup(currentPopupElement);
+  }
+}
+
+// Закрытие попапа при нажатии на overlay
+function handleOverlayClick(popupElement, evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup(popupElement);
+  }
 }
 
 // Заполняет поля ввода в форме редактирования информации
@@ -77,8 +100,7 @@ function fillInputFields() {
 
 // Очищает поля ввода в форме добавления карточки
 function clearInputFields() {
-  inputLink.value = '';
-  inputPlaceName.value = '';
+  formAdd.reset();
 }
 
 // Наполняет содержимым элементы popup-photo
@@ -88,19 +110,17 @@ function fillPhotoPopupInfo(photoIndex, nameIndex) {
 }
 
 // Изменяет информацию о пользователе, закрывает модальное окно редактирования информации
-function changeInfo(evt) {
-  evt.preventDefault();
+function changeInfo() {
   profileName.textContent = inputName.value;
   profileOccupation.textContent = inputOccupation.value;
   closePopup(popupEdit);
 }
 
 // Сохраняет данные, введенные пользователем в форме добавления карточки, вызывает функцию добавления карточки, вызывает функцию закрытия модального окна
-function saveCard(evt) {
+function saveCard() {
   const newCardName = inputPlaceName.value;
   const newCardImageLink = inputLink.value;
 
-  evt.preventDefault();
   addNewCard(newCardName, newCardImageLink);
   closePopup(popupAdd);
 }
@@ -147,9 +167,9 @@ function addNewCard(namePlace, link) {
 }
 
 // ----- Добавление обработчиков событий -----
-
-btnEdit.addEventListener('click', fillInputFields);
 btnEdit.addEventListener('click', () => {
+  fillInputFields();
+  setFormState(formInfo, formSetup);
   openPopup(popupEdit);
 });
 
@@ -159,8 +179,9 @@ btnCloseEditPopup.addEventListener('click', () => {
 
 formInfo.addEventListener('submit', changeInfo);
 
-btnAdd.addEventListener('click', clearInputFields);
 btnAdd.addEventListener('click', () => {
+  clearInputFields();
+  setFormState(formAdd, formSetup);
   openPopup(popupAdd);
 });
 
@@ -174,7 +195,10 @@ btnClosePhotoPopup.addEventListener('click', () => {
   closePopup(popupPhoto);
 });
 
-
-
-
+// Добавление обработчиков событий для всех попапов
+popupElements.forEach(popupElement => {
+  popupElement.addEventListener('click', (evt) => {
+    handleOverlayClick(popupElement, evt)
+  });
+});
 
