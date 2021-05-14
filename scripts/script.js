@@ -48,17 +48,47 @@ const initialCards = [
   }
 ];
 
-// ----- Добавление начального контента -----
-
-// Перевернуть массив для правильного порядка добавления карточек
-initialCards.reverse();
-
-// Добавление начальных карточек на страницу
-initialCards.forEach(card => {
-  addNewCard(card.placeName, card.link);
-});
-
 // ----- Функции -----
+// Создает карточки
+function createNewCard(cardData) {
+  // Получение содержимого заготовки вёрстки карточки
+  const cardTemplate = document.querySelector('#card-template').content;
+  // Клонирование содержимого заготовки вёрски карточки
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  // Сохранение элемента изображения карточки в переменной
+  const cardImage = cardElement.querySelector('.card__image');
+
+  // Наполнение карточки содержимым
+  cardImage.src = cardData.link;
+  cardImage.alt = `изображение ${cardData.placeName}`;
+  cardElement.querySelector('.card__title').textContent = cardData.placeName;
+
+  // --- Добавление обработчиков событий ---
+
+  // Событие клика на лайк - добавление/удаление класса card__like-btn_active
+  cardElement.querySelector('.card__like-btn').addEventListener('click', evt => {
+    evt.target.classList.toggle('card__like-btn_active');
+  });
+  // Событие клика на крестике - удаления карточки
+  cardElement.querySelector('.card__delete-btn').addEventListener('click', () => {
+    cardElement.remove();
+  });
+  // Событие клика на изображение - открытие модального окна с изображением
+  cardImage.addEventListener('click', () => {
+    fillPhotoPopupInfo(cardData.link, cardData.placeName);
+    openPopup(popupPhoto);
+  });
+
+  return cardElement;
+};
+
+// Отображение элемента на странице
+function addNewCard(cardData) {
+  const cardElement = createNewCard(cardData);
+
+  // Добавляет элемент на страницу в начало node
+  cards.prepend(cardElement);
+}
 
 // Открывает модальное окно
 function openPopup(popupElement) {
@@ -72,23 +102,31 @@ function openPopup(popupElement) {
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
 
+  // Очищение полей ввода и установка правильного состояния для кнопки submit
+  if (popupElement === popupAdd) {
+    clearInputFields();
+    setFormState(formAdd, formSetup);
+  } else if (popupElement === popupEdit) {
+    setFormState(formInfo, formSetup);
+  }
+
   // Удаляет слушатель событий, закрывающий модальное окно по нажатию на Esc
   window.removeEventListener('keydown', checkEscButton);
 }
 
 // Закрытие попапа при нажатии клавиши Esc
 function checkEscButton(evt) {
-  const currentPopupElement = document.querySelector('.popup_opened');
-
   if (evt.key === 'Escape') {
+    const currentPopupElement = document.querySelector('.popup_opened');
+
     closePopup(currentPopupElement);
   }
 }
 
 // Закрытие попапа при нажатии на overlay
-function handleOverlayClick(popupElement, evt) {
+function handleOverlayClick(evt) {
   if (evt.target === evt.currentTarget) {
-    closePopup(popupElement);
+    closePopup(evt.currentTarget);
   }
 }
 
@@ -118,58 +156,17 @@ function changeInfo() {
 
 // Сохраняет данные, введенные пользователем в форме добавления карточки, вызывает функцию добавления карточки, вызывает функцию закрытия модального окна
 function saveCard() {
-  const newCardName = inputPlaceName.value;
-  const newCardImageLink = inputLink.value;
+  const newCard = {
+    placeName: inputPlaceName.value,
+    link: inputLink.value
+  }
 
-  addNewCard(newCardName, newCardImageLink);
+  addNewCard(newCard);
   closePopup(popupAdd);
 }
-
-// Создает карточки
-function createNewCard(namePlace, link) {
-  // Получение содержимого заготовки вёрстки карточки
-  const cardTemplate = document.querySelector('#card-template').content;
-  // Клонирование содержимого заготовки вёрски карточки
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  // Сохранение элемента изображения карточки в переменной
-  const cardImage = cardElement.querySelector('.card__image');
-
-  // Наполнение карточки содержимым
-  cardImage.src = link;
-  cardImage.alt = `изображение ${namePlace}`;
-  cardElement.querySelector('.card__title').textContent = namePlace;
-
-  // --- Добавление обработчиков событий ---
-
-  // Событие клика на лайк - добавление/удаление класса card__like-btn_active
-  cardElement.querySelector('.card__like-btn').addEventListener('click', evt => {
-    evt.target.classList.toggle('card__like-btn_active');
-  });
-  // Событие клика на крестике - удаления карточки
-  cardElement.querySelector('.card__delete-btn').addEventListener('click', () => {
-    cardElement.remove();
-  });
-  // Событие клика на изображение - открытие модального окна с изображением
-  cardImage.addEventListener('click', () => {
-    fillPhotoPopupInfo(link, namePlace);
-    openPopup(popupPhoto);
-  });
-
-  return cardElement;
-};
-
-// Отображение элемента на странице
-function addNewCard(namePlace, link) {
-  const cardElement = createNewCard(namePlace, link);
-
-  // Добавляет элемент на страницу в начало node
-  cards.prepend(cardElement);
-}
-
 // ----- Добавление обработчиков событий -----
 btnEdit.addEventListener('click', () => {
   fillInputFields();
-  setFormState(formInfo, formSetup);
   openPopup(popupEdit);
 });
 
@@ -180,8 +177,6 @@ btnCloseEditPopup.addEventListener('click', () => {
 formInfo.addEventListener('submit', changeInfo);
 
 btnAdd.addEventListener('click', () => {
-  clearInputFields();
-  setFormState(formAdd, formSetup);
   openPopup(popupAdd);
 });
 
@@ -197,8 +192,15 @@ btnClosePhotoPopup.addEventListener('click', () => {
 
 // Добавление обработчиков событий для всех попапов
 popupElements.forEach(popupElement => {
-  popupElement.addEventListener('click', (evt) => {
-    handleOverlayClick(popupElement, evt)
-  });
+  popupElement.addEventListener('click', handleOverlayClick);
 });
 
+// ----- Добавление начального контента -----
+
+// Перевернуть массив для правильного порядка добавления карточек
+initialCards.reverse();
+
+// Добавление начальных карточек на страницу
+initialCards.forEach(card => {
+  addNewCard(card);
+});

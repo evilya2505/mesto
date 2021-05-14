@@ -60,6 +60,10 @@ function setEventListeners(formElement, formSetup) {
   const inputList = Array.from(formElement.querySelectorAll(`${formSetup.inputSelector}`));
   const buttonElement = formElement.querySelector(`${formSetup.submitButtonSelector}`);
 
+  // Заполнение полей ввода, чтобы кнопка submit принимала правильное состояние при загрузке страницы
+  fillInputFields();
+  toggleButtonState(inputList,buttonElement, formSetup);
+
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, formSetup);
@@ -84,8 +88,10 @@ function enableValidation(formSetup) {
 function toggleButtonState(inputList, buttonElement, formSetup) {
   if(!hasInvalidInput(inputList)) {
     buttonElement.classList.remove(`${formSetup.inactiveButtonClass}`);
+    buttonElement.disabled = false;
   } else {
     buttonElement.classList.add(`${formSetup.inactiveButtonClass}`);
+    buttonElement.disabled = true;
   }
 }
 
