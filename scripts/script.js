@@ -102,14 +102,6 @@ function openPopup(popupElement) {
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
 
-  // Очищение полей ввода и установка правильного состояния для кнопки submit
-  if (popupElement === popupAdd) {
-    clearInputFields();
-    setFormState(formAdd, formSetup);
-  } else if (popupElement === popupEdit) {
-    setFormState(formInfo, formSetup);
-  }
-
   // Удаляет слушатель событий, закрывающий модальное окно по нажатию на Esc
   window.removeEventListener('keydown', checkEscButton);
 }
@@ -167,6 +159,7 @@ function saveCard() {
 // ----- Добавление обработчиков событий -----
 btnEdit.addEventListener('click', () => {
   fillInputFields();
+  setFormState(formInfo, formSetup);
   openPopup(popupEdit);
 });
 
@@ -177,6 +170,8 @@ btnCloseEditPopup.addEventListener('click', () => {
 formInfo.addEventListener('submit', changeInfo);
 
 btnAdd.addEventListener('click', () => {
+  clearInputFields();
+  setFormState(formAdd, formSetup);
   openPopup(popupAdd);
 });
 
