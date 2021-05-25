@@ -1,3 +1,7 @@
+// ----- Импорт классов и объектов из других файлов -----
+import {Card} from './card.js';
+import {FormValidator, formSetup} from './validation.js';
+
 // ----- Инициализация глобальных переменных -----
 const btnEdit = document.querySelector('.profile__edit-btn');
 const btnAdd = document.querySelector('.profile__add-btn');
@@ -16,9 +20,10 @@ const inputOccupation = formInfo.elements.occupation;
 const inputPlaceName = formAdd.elements.place;
 const inputLink = formAdd.elements.link;
 const popupPhotoImage = document.querySelector('.popup-photo__image');
-const popupPhoto = document.querySelector('.popup-photo');
+export const popupPhoto = document.querySelector('.popup-photo');
 const cards = document.querySelector('.cards__list');
 const popupElements = document.querySelectorAll('.popup');
+const formElements = Array.from(document.querySelectorAll('.form'));
 
 // Шесть карточек «из коробки»
 const initialCards = [
@@ -49,49 +54,19 @@ const initialCards = [
 ];
 
 // ----- Функции -----
-// Создает карточки
-function createNewCard(cardData) {
-  // Получение содержимого заготовки вёрстки карточки
-  const cardTemplate = document.querySelector('#card-template').content;
-  // Клонирование содержимого заготовки вёрски карточки
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  // Сохранение элемента изображения карточки в переменной
-  const cardImage = cardElement.querySelector('.card__image');
-
-  // Наполнение карточки содержимым
-  cardImage.src = cardData.link;
-  cardImage.alt = `изображение ${cardData.placeName}`;
-  cardElement.querySelector('.card__title').textContent = cardData.placeName;
-
-  // --- Добавление обработчиков событий ---
-
-  // Событие клика на лайк - добавление/удаление класса card__like-btn_active
-  cardElement.querySelector('.card__like-btn').addEventListener('click', evt => {
-    evt.target.classList.toggle('card__like-btn_active');
-  });
-  // Событие клика на крестике - удаления карточки
-  cardElement.querySelector('.card__delete-btn').addEventListener('click', () => {
-    cardElement.remove();
-  });
-  // Событие клика на изображение - открытие модального окна с изображением
-  cardImage.addEventListener('click', () => {
-    fillPhotoPopupInfo(cardData.link, cardData.placeName);
-    openPopup(popupPhoto);
-  });
-
-  return cardElement;
-};
-
 // Отображение элемента на странице
 function addNewCard(cardData) {
-  const cardElement = createNewCard(cardData);
-
+  // Создание нового экземпляра карточки
+  const card = new Card(cardData, '#card-template');
+  // const cardElement = createNewCard(cardData);
+  //Получение готовой карточки
+  const cardElement = card.generateCard();
   // Добавляет элемент на страницу в начало node
   cards.prepend(cardElement);
 }
 
 // Открывает модальное окно
-function openPopup(popupElement) {
+export function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
 
   // Добавляет слушатель событий, закрывающий модальное окно по нажатию на Esc
@@ -134,7 +109,7 @@ function clearInputFields() {
 }
 
 // Наполняет содержимым элементы popup-photo
-function fillPhotoPopupInfo(photoIndex, nameIndex) {
+export function fillPhotoPopupInfo(photoIndex, nameIndex) {
   popupPhotoImage.src = photoIndex;
   popupPhotoImageName.textContent = nameIndex;
 }
@@ -156,10 +131,10 @@ function saveCard() {
   addNewCard(newCard);
   closePopup(popupAdd);
 }
+
 // ----- Добавление обработчиков событий -----
 btnEdit.addEventListener('click', () => {
   fillInputFields();
-  setFormState(formInfo, formSetup);
   openPopup(popupEdit);
 });
 
@@ -171,7 +146,6 @@ formInfo.addEventListener('submit', changeInfo);
 
 btnAdd.addEventListener('click', () => {
   clearInputFields();
-  setFormState(formAdd, formSetup);
   openPopup(popupAdd);
 });
 
@@ -191,11 +165,30 @@ popupElements.forEach(popupElement => {
 });
 
 // ----- Добавление начального контента -----
-
 // Перевернуть массив для правильного порядка добавления карточек
 initialCards.reverse();
 
 // Добавление начальных карточек на страницу
 initialCards.forEach(card => {
   addNewCard(card);
+});
+
+// ----- Cоздание экземпляра класса для каждой формы -----
+formElements.forEach((formElement) => {
+  const validatingForm = new FormValidator(formSetup, formElement);
+  validatingForm.enableValidation();
+
+  // Добавление обработчиков событий для того, чтобы при открытии попапа устанавливалось правильное состояние кнопки submit
+  switch (formElement) {
+    case formAdd:
+      btnAdd.addEventListener('click', () => {
+        validatingForm.setFormState();
+      });
+      break;
+    case formInfo:
+      btnEdit.addEventListener('click', () => {
+        validatingForm.setFormState();
+      });
+      break;
+  }
 });
