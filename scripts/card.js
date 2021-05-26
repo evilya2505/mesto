@@ -1,5 +1,5 @@
 // ----- Импорт классов и объектов из других файлов -----
-import {fillPhotoPopupInfo, openPopup, popupPhoto} from './script.js';
+import {fillPhotoPopupInfo, openPopup, popupPhoto} from './index.js';
 
 // ----- Класс, создающий карточку -----
 export class Card {
@@ -31,6 +31,7 @@ export class Card {
     // Событие клика на крестике - удаления карточки
     this._element.querySelector('.card__delete-btn').addEventListener('click', () => {
       this._element.remove();
+      this._element = null;
     });
     // Событие клика на изображение - открытие модального окна с изображением
     this._element.querySelector('.card__image').addEventListener('click', () => {

@@ -1,6 +1,7 @@
 // ----- Импорт классов и объектов из других файлов -----
 import {Card} from './card.js';
-import {FormValidator, formSetup} from './validation.js';
+import {FormValidator, formSetup} from './FormValidator.js';
+import {initialCards} from './initial-cards.js';
 
 // ----- Инициализация глобальных переменных -----
 const btnEdit = document.querySelector('.profile__edit-btn');
@@ -23,35 +24,13 @@ const popupPhotoImage = document.querySelector('.popup-photo__image');
 export const popupPhoto = document.querySelector('.popup-photo');
 const cards = document.querySelector('.cards__list');
 const popupElements = document.querySelectorAll('.popup');
-const formElements = Array.from(document.querySelectorAll('.form'));
 
-// Шесть карточек «из коробки»
-const initialCards = [
-  {
-    placeName: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    placeName: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    placeName: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    placeName: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    placeName: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    placeName: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+// ----- Cоздание экземпляра класса для каждой формы -----
+const validatingFormInfo = new FormValidator(formSetup, formInfo);
+const validatingFormAdd = new FormValidator(formSetup, formAdd);
+validatingFormInfo.enableValidation();
+validatingFormAdd.enableValidation();
+
 
 // ----- Функции -----
 // Отображение элемента на странице
@@ -135,6 +114,7 @@ function saveCard() {
 // ----- Добавление обработчиков событий -----
 btnEdit.addEventListener('click', () => {
   fillInputFields();
+  validatingFormInfo.setFormState();
   openPopup(popupEdit);
 });
 
@@ -146,6 +126,7 @@ formInfo.addEventListener('submit', changeInfo);
 
 btnAdd.addEventListener('click', () => {
   clearInputFields();
+  validatingFormAdd.setFormState();
   openPopup(popupAdd);
 });
 
@@ -171,24 +152,4 @@ initialCards.reverse();
 // Добавление начальных карточек на страницу
 initialCards.forEach(card => {
   addNewCard(card);
-});
-
-// ----- Cоздание экземпляра класса для каждой формы -----
-formElements.forEach((formElement) => {
-  const validatingForm = new FormValidator(formSetup, formElement);
-  validatingForm.enableValidation();
-
-  // Добавление обработчиков событий для того, чтобы при открытии попапа устанавливалось правильное состояние кнопки submit
-  switch (formElement) {
-    case formAdd:
-      btnAdd.addEventListener('click', () => {
-        validatingForm.setFormState();
-      });
-      break;
-    case formInfo:
-      btnEdit.addEventListener('click', () => {
-        validatingForm.setFormState();
-      });
-      break;
-  }
 });

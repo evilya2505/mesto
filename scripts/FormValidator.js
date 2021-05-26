@@ -17,6 +17,7 @@ export class FormValidator {
     this._inputErrorClass = formSetup.inputErrorClass;
     this._errorClass = formSetup.errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(`${this._inputSelector}`));
   }
 
   // Отображение ошибки при невалидном значении в поле ввода
@@ -46,17 +47,17 @@ export class FormValidator {
   }
 
   // Проверяет есть ли поля с невалидными значениями в форме
- _hasInvalidInput(inputList) {
-    return inputList.some((formElement) => {
+ _hasInvalidInput() {
+    return this._inputList.some((formElement) => {
       return !formElement.validity.valid;
       });
   }
 
   // Переключает кнопку сохраненения в нужное состояние, в зависимости от того, есть ли в форме поля ввода с невалидными значениями
-  _toggleButtonState(inputList) {
+  _toggleButtonState() {
     const buttonElement = this._formElement.querySelector(`${formSetup.submitButtonSelector}`);
 
-    if(!this._hasInvalidInput(inputList)) {
+    if(!this._hasInvalidInput()) {
       buttonElement.classList.remove(`${this._inactiveButtonClass}`);
       buttonElement.disabled = false;
     } else {
@@ -67,12 +68,10 @@ export class FormValidator {
 
   // Устанавливает обработчики событий на элементы формы
   _setEventListeners() {
-    const inputList = Array.from(this._formElement.querySelectorAll(`${this._inputSelector}`));
-
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList);
+        this._toggleButtonState();
       });
     });
   };
@@ -81,13 +80,13 @@ export class FormValidator {
     Удаляет все ошибки, которые появились, если пользователь ввел невалидные данные и закрыл попап;
     Устанавливает нужное состояние кнопке сохранения) */
   setFormState() {
-    const inputList = Array.from(this._formElement.querySelectorAll(`${formSetup.inputSelector}`));
-
-    inputList.forEach((inputItem) => {
+    this._inputList.forEach((inputItem) => {
       this._hideError(inputItem);
     });
 
-    this._toggleButtonState(inputList);
+
+    /* Идея была в том, чтобы при открытии попапа с формой кнопка принимала значение в зависимости от того, валидные ли данные в форме, если просто отключить кнопку, то, например, в форме с редактированием информации тоже будет отключенная кнопка, хотя по идее там изначально введены валидные данные*/
+    this._toggleButtonState();
   }
 
   // Включает валидацию формы
