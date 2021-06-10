@@ -1,15 +1,15 @@
 import Popup from './Popup.js';
 
-// Класс принимает в конструктор колбэк сабмита формы
+// Класс принимает в конструктор коллбэк сабмита формы
 export default class PopupWithForm extends Popup {
-  constructor({popupSelector, handleFormSubmit}) {
+  constructor({popupSelector, handlePopupForm}) {
     super(popupSelector);
-    this._handleFormSubmit = handleFormSubmit;
+    this._handlePopupForm = handlePopupForm;
     // Находит форму, находящуюся в данном модальном окне
     this._form = this._popupElement.querySelector('.form');
   }
 
-  // Метод, который собирает данные вех полей формы
+  // Метод, который собирает данные всех полей формы
   _getInputValues() {
     const inputList = Array.from(this._form.querySelectorAll('.form__item'));
     const values = {};
@@ -27,7 +27,7 @@ export default class PopupWithForm extends Popup {
 
     this._form.addEventListener('submit', () => {
       const newValues = this._getInputValues();
-      this._handleFormSubmit(newValues);
+      this._handlePopupForm(newValues);
       this.close();
     });
   }

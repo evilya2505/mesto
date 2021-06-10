@@ -37,7 +37,7 @@ const ProfileUserInfo = new UserInfo({
 
 const popupWithEditForm = new PopupWithForm({
   popupSelector: popupEditSelector,
-  handleFormSubmit: ProfileUserInfo.setUserInfo.bind(ProfileUserInfo)
+  handlePopupForm: ProfileUserInfo.setUserInfo.bind(ProfileUserInfo)
 });
 // Добавление обработчиков событий
 popupWithEditForm.setEventListeners();
@@ -63,7 +63,7 @@ cardList.renderItems();
 
 const popupWithAddForm = new PopupWithForm({
   popupSelector: popupAddSelector,
-  handleFormSubmit: (formData) => {
+  handlePopupForm: (formData) => {
     const card = new Card(formData, cardSelector, popupWithPhoto.open.bind(popupWithPhoto));
     const cardElement = card.generateCard();
 
