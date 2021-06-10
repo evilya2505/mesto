@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Mesto">
-  <link rel="stylesheet" href="pages/index.css">
   <title>Mesto</title>
 </head>
 <body class="root">
   <!-- Header Section -->
   <header class="header root__header">
     <a href="#" target="_blank" class="header__link">
-      <img src="images/logo.svg" alt="изображение логотипа" class="header__logo">
+      <img src="<%=require('./images/logo.svg')%>" alt="изображение логотипа" class="header__logo">
     </a>
   </header>
   <!-- Header Section -->
@@ -20,7 +19,7 @@
   <main class="content root__content">
     <!-- Profile Section -->
     <section class="profile content__profile">
-      <img src="images/image.jpg" alt="аватарка пользователя" class="profile__avatar">
+      <img src="<%=require('./images/image.jpg')%>" alt="аватарка пользователя" class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button aria-label="изменить имя и описание профиля" type="button" class="profile__edit-btn"></button>
@@ -70,8 +69,8 @@
       <form name="addCard" class="form popup__form form-add" novalidate>
         <h2 class="form__title">Новое место</h2>
         <fieldset class="form__input-container">
-          <input type="text" name="place" placeholder="Название" class="form__item form__item_el_place-name" minlength="2" maxlength="30" required>
-          <span class="form__input-error place-input-error"></span>
+          <input type="text" name="placeName" placeholder="Название" class="form__item form__item_el_place-name" minlength="2" maxlength="30" required>
+          <span class="form__input-error placeName-input-error"></span>
           <input type="url" name="link" placeholder="Ссылка на картинку" class="form__item form__item_el_link" required>
           <span class="form__input-error link-input-error"></span>
           <button type="submit" class="form__save-btn">Создать</button>
@@ -106,6 +105,5 @@
     </li>
   </template>
   <!-- Card Template  -->
-  <script type="module" src="scripts/index.js"></script>
 </body>
 </html>

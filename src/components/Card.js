@@ -1,12 +1,11 @@
-// ----- Импорт классов и объектов из других файлов -----
-import {fillPhotoPopupInfo, openPopup, popupPhoto} from './index.js';
-
 // ----- Класс, создающий карточку -----
 export class Card {
-  constructor(cardData, templateSelector) {
+  constructor(cardData, templateSelector, handleCardClick) {
     this._placeName = cardData.placeName;
     this._link = cardData.link;
     this._cardSelector = templateSelector;
+    // Ф-ция, открывающая попап с картинкой при клике на карточку
+    this._handleCardClick = handleCardClick;
   }
 
   // Получение и клонирование содержимого заготовки верстки карточки
@@ -35,8 +34,7 @@ export class Card {
     });
     // Событие клика на изображение - открытие модального окна с изображением
     this._element.querySelector('.card__image').addEventListener('click', () => {
-      fillPhotoPopupInfo(this._link, this._placeName);
-      openPopup(popupPhoto);
+      this._handleCardClick(this._link, this._placeName);
     });
 
     return this._element;

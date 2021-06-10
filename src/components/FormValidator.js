@@ -7,7 +7,7 @@ export const formSetup = {
   errorClass: 'form__input-error_active'
 }
 
-// ----- Класс, настраивающий валидацию полей формы -----
+// Класс, настраивающий валидацию полей формы
 export class FormValidator {
   constructor(formSetup, formElement) {
     this._formSelector = formSetup.formSelector;
@@ -84,8 +84,6 @@ export class FormValidator {
       this._hideError(inputItem);
     });
 
-
-    /* Идея была в том, чтобы при открытии попапа с формой кнопка принимала значение в зависимости от того, валидные ли данные в форме, если просто отключить кнопку, то, например, в форме с редактированием информации тоже будет отключенная кнопка, хотя по идее там изначально введены валидные данные*/
     this._toggleButtonState();
   }
 
