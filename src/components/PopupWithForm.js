@@ -11,14 +11,14 @@ export default class PopupWithForm extends Popup {
 
   // Метод, который собирает данные всех полей формы
   _getInputValues() {
-    const inputList = Array.from(this._form.querySelectorAll('.form__item'));
-    const values = {};
+    this._inputList = Array.from(this._form.querySelectorAll('.form__item'));
+    this._formValues = {};
 
-    inputList.forEach(input => {
-      values[input.name] = input.value;
+    this._inputList.forEach(input => {
+      this._formValues[input.name] = input.value;
     })
 
-    return values;
+    return this._formValues;
   }
 
   // Перезаписывает родительский метод, добавляет обработчик сабмита формы
