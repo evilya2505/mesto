@@ -4,9 +4,6 @@ export default class UserInfo {
   constructor({ userNameSelector, occupationSelector }) {
     this._userName = document.querySelector(userNameSelector);
     this._occupation = document.querySelector(occupationSelector);
-    this._form = document.forms.changeInfo;
-    this._inputName = this._form.elements.name;
-    this._inputOccupation = this._form.elements.occupation;
   }
 
   // Метод, возвращающий объект с данными пользователя

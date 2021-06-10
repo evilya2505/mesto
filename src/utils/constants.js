@@ -10,3 +10,6 @@ export const popupAddSelector = '.popup-add';
 export const popupEditSelector = '.popup-edit';
 export const popupImageSelector = '.popup-photo';
 export const cardSelector = '#card-template';
+export const userNameSelector = '.profile__name';
+export const userOccupationSelector = '.profile__occupation';
+

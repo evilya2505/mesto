@@ -17,7 +17,9 @@ import {
   popupImageSelector,
   cardSelector,
   inputOccupation,
-  inputUserName
+  inputUserName,
+  userNameSelector,
+  userOccupationSelector
 } from '../utils/constants.js';
 
 // ----- Импорт главного css-файла -----
@@ -31,8 +33,8 @@ validatingFormInfo.enableValidation();
 validatingFormAdd.enableValidation();
 
 const ProfileUserInfo = new UserInfo({
-  userNameSelector: '.profile__name',
-  occupationSelector: '.profile__occupation'
+  userNameSelector: userNameSelector,
+  occupationSelector: userOccupationSelector
 })
 
 const popupWithEditForm = new PopupWithForm({
@@ -49,11 +51,18 @@ popupWithPhoto.setEventListeners();
 // Переворачивает массив для правильного порядка добавления карточек
 initialCards.reverse();
 
+// Функция, отвечающая за создание экземпляра карточки
+function createNewCard(item) {
+  const card = new Card(item, cardSelector, popupWithPhoto.open.bind(popupWithPhoto));
+  const cardElement = card.generateCard();
+
+  return cardElement;
+}
+
 const cardList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, cardSelector, popupWithPhoto.open.bind(popupWithPhoto));
-    const cardElement = card.generateCard();
+    const cardElement = createNewCard(item);
 
     cardList.addItem(cardElement);
   }
@@ -64,8 +73,7 @@ cardList.renderItems();
 const popupWithAddForm = new PopupWithForm({
   popupSelector: popupAddSelector,
   handlePopupForm: (formData) => {
-    const card = new Card(formData, cardSelector, popupWithPhoto.open.bind(popupWithPhoto));
-    const cardElement = card.generateCard();
+    const cardElement = createNewCard(formData);
 
     cardList.addItem(cardElement);
   }

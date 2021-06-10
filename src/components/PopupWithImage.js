@@ -13,6 +13,7 @@ export default class PopupWithImage extends Popup {
 
     popupPhotoImage.src = link;
     popupPhotoImageName.textContent = placeName;
+    popupPhotoImageName.alt = `изображение ${placeName}`;
     super.open();
   }
 }
