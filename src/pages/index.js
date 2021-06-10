@@ -15,7 +15,9 @@ import {
   popupAddSelector,
   popupEditSelector,
   popupImageSelector,
-  cardSelector
+  cardSelector,
+  inputOccupation,
+  inputUserName
 } from '../utils/constants.js';
 
 // ----- Импорт главного css-файла -----
@@ -30,7 +32,7 @@ validatingFormAdd.enableValidation();
 
 const ProfileUserInfo = new UserInfo({
   userNameSelector: '.profile__name',
-  descriptionSelector: '.profile__occupation'
+  occupationSelector: '.profile__occupation'
 })
 
 const popupWithEditForm = new PopupWithForm({
@@ -74,7 +76,9 @@ popupWithAddForm.setEventListeners();
 // ----- Добавление обработчиков событий -----
 btnEdit.addEventListener('click', () => {
   // Заполнение данных о пользователе при открытии модального окна
-  ProfileUserInfo.getUserInfo();
+  const userData = ProfileUserInfo.getUserInfo();
+  inputOccupation.value = userData.occupation;
+  inputUserName.value = userData.name;
   // Удаляет ошибки, устанавливает правильно состояние кнопки сабмита
   validatingFormInfo.setFormState();
   // Открывает модальное окно
