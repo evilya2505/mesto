@@ -19,7 +19,11 @@
   <main class="content root__content">
     <!-- Profile Section -->
     <section class="profile content__profile">
-      <img src="<%=require('./images/image.jpg')%>" alt="аватарка пользователя" class="profile__avatar">
+      <div class="profile__avatar-container">
+        <img src="<%=require('./images/image.jpg')%>" alt="аватарка пользователя"
+        class="profile__avatar">
+        <div class="profile__avatar-overlay"></div>
+      </div>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button aria-label="изменить имя и описание профиля" type="button" class="profile__edit-btn"></button>
@@ -92,6 +96,34 @@
   </div>
   <!-- Photo Popup -->
 
+  <!-- Popup Delete Confirmation -->
+  <div class="popup popup-delete">
+    <div class="popup__container">
+    <button aria-label="закрыть окно удаления карточки" type="button" class="popup__close-btn popup-delete__close-btn"></button>
+    <form name="deleteCard" class="form popup__form form-delete" novalidate>
+      <h2 class="form__title">Вы уверены?</h2>
+      <button type="submit" class="form__agree-btn">Да</button>
+    </form>
+    </div>
+  </div>
+  <!-- Popup Delete Confirmation -->
+
+  <!-- Update Avatar Popup -->
+  <div class="popup popup-avatar">
+    <div class="popup__container">
+    <button aria-label="закрыть окно обновления аватарки" type="button" class="popup__close-btn popup-avatar__close-btn"></button>
+      <form name="updateAvatar" class="form popup__form form-avatar" novalidate>
+        <h2 class="form__title">Обновить аватар</h2>
+        <fieldset class="form__input-container">
+          <input type="url" name="avatar" placeholder="Ссылка на картинку" class="form__item form__item_el_avatar" required>
+          <span class="form__input-error avatar-input-error"></span>
+          <button type="submit" class="form__save-btn">Сохранить</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <!-- Update Avatar Popup -->
+
   <!-- Card Template  -->
   <template id="card-template">
     <li class="card">
@@ -100,7 +132,10 @@
       <button aria-label="удалить карточку" class="card__delete-btn"></button>
       <div class="card__info">
         <h2 class="card__title"></h2>
-        <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
+        <div class="card__like-area">
+          <button aria-label="поставить лайк" type="button" class="card__like-btn"></button>
+          <span class="card__likes-amount"></span>
+        </div>
       </div>
     </li>
   </template>
