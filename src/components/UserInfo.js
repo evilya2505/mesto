@@ -19,11 +19,15 @@ export default class UserInfo {
 
   // Принимает новые данные пользователя и добавляет их на страницу
   setUserInfo({ name, occupation }) {
-    this._userName.textContent = name;
-    this._occupation.textContent = occupation;
+    if (name && occupation) {
+      this._userName.textContent = name;
+      this._occupation.textContent = occupation;
+    }
   }
 
   setUserAvatar({ avatar }) {
-    this._avatar.src = avatar;
+    if (avatar) {
+      this._avatar.src = avatar;
+    }
   }
 }

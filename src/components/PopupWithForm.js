@@ -29,7 +29,6 @@ export default class PopupWithForm extends Popup {
       evt.preventDefault();
       const newValues = this._getInputValues();
       this._handlePopupForm(newValues, this._form.querySelector('.form__save-btn'));
-      this.close();
     });
   }
 

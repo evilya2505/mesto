@@ -27,6 +27,7 @@ import {
   userAvatarSelector,
   popupDeleteSelector
 } from '../utils/constants.js';
+import renderLoading from '../utils/utils.js';
 
 // ----- Импорт главного css-файла -----
 import './index.css';
@@ -53,27 +54,7 @@ const api = new Api({
   }
 });
 
-// Переменная для ID пользователя
-let currentUserID = null;
-
-if (currentUserID === null) {
-  // Загрузка информации о пользователе с сервера
-  api.getUserInfo()
-    .then(userData => {
-      // Сохраняет ID пользователя в переменную currentUserID
-      currentUserID = userData._id;
-      // Устанавливает аватарку
-      ProfileUserInfo.setUserAvatar(userData);
-      // Устанавливает информацию о пользователе
-      ProfileUserInfo.setUserInfo({ occupation: userData.about, ...userData });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-}
-
 const cardList = new Section({
-  items: [],
   renderer: (item) => {
     const cardElement = createNewCard(item);
 
@@ -81,47 +62,52 @@ const cardList = new Section({
   }
 }, cardListSelector);
 
-// Загрузка карточек с сервера
-api.getInitialCards()
-  .then(cardsData => {
-    // Переворачивает массив для правильного порядка добавления карточек
-    cardsData.reverse();
-    cardsData.forEach(cardData => {
-      const cardElement = createNewCard({ placeName: cardData.name, ...cardData });
+// Переменная для ID пользователя
+let currentUserID = null;
 
-      cardList.addItem(cardElement);
-    });
+// Получение и отображение информации о пользователе и карточек с сервера
+api.getInitialData()
+  .then((data) => {
+    // Сохраняет данные о пользователе, пришедшие с сервера, в переменную
+    const userInfo = data[0];
+    // Сохраняет карточки, пришедшие с сервера, в переменную
+    const cardsData = data[1];
+
+    // Сохраняет ID пользователя в переменную
+    currentUserID = userInfo._id;
+
+    // Устанавливает аватарку
+    ProfileUserInfo.setUserAvatar(userInfo);
+    // Устанавливает информацию о пользователе
+    ProfileUserInfo.setUserInfo({ occupation: userInfo.about, ...userInfo });
+
+    // Переворачивает массив для правильного порядка отображения карточек
+    cardsData.reverse();
+    // Добавление карточек
+    cardList.renderItems(cardsData);
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
-
-// Меняет текст кнопки, пока данные загружаются, когда данные загружены, возвращает изначальный текст
-function renderLoading({ buttonElement, isLoading, initialText }) {
-  if (isLoading) {
-    buttonElement.textContent = 'Сохранение...';
-  } else {
-    buttonElement.textContent = initialText;
-  }
-}
 
 const popupWithEditForm = new PopupWithForm({
   popupSelector: popupEditSelector,
   // Изменение данных пользователя
-  handlePopupForm: (inputValues, buttonElement) => {
+  handlePopupForm: function(inputValues, buttonElement) {
     renderLoading({
       buttonElement: buttonElement,
       isLoading: true,
     });
 
     api.updateUserInfo(inputValues)
-      .then(data => {
+      .then((data) => {
         ProfileUserInfo.setUserInfo({ occupation: data.about, ...data });
       })
       .catch(err => {
         console.log(err);
       })
       .finally(() => {
+        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,
@@ -140,20 +126,21 @@ popupWithPhoto.setEventListeners();
 const popupWithAvatarForm = new PopupWithForm({
   popupSelector: popupAvatarSelector,
   // Изменение аватарки
-  handlePopupForm: (inputValue, buttonElement) => {
+  handlePopupForm: function(inputValue, buttonElement) {
     renderLoading({
       buttonElement: buttonElement,
       isLoading: true
     });
 
     api.updateUserAvatar(inputValue)
-      .then(data => {
+      .then((data) => {
         ProfileUserInfo.setUserAvatar(data);
       })
       .catch(err => {
         console.log(err);
       })
       .finally(() => {
+        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,
@@ -167,7 +154,7 @@ popupWithAvatarForm.setEventListeners();
 const popupWithDeleteConfirmation = new PopupWithDeleteConfirmation({
   popupSelector: popupDeleteSelector,
   // Удаление карточки
-  handleSubmitButton: (cardElement, cardData) => {
+  handleSubmitButton: function(cardElement, cardData) {
     api.deleteCard(cardData)
       .then(() => {
         cardElement.remove();
@@ -176,6 +163,9 @@ const popupWithDeleteConfirmation = new PopupWithDeleteConfirmation({
       .catch(err => {
         console.log(err);
       })
+      .finally(() => {
+        this.close();
+      });
   }
 });
 popupWithDeleteConfirmation.setEventListeners();
@@ -229,7 +219,7 @@ function createNewCard(item) {
 const popupWithAddForm = new PopupWithForm({
   popupSelector: popupAddSelector,
   // Добавление карточки
-  handlePopupForm: (formData, buttonElement) => {
+  handlePopupForm: function(formData, buttonElement) {
     renderLoading({
       buttonElement: buttonElement,
       isLoading: true
@@ -242,6 +232,7 @@ const popupWithAddForm = new PopupWithForm({
         cardList.addItem(cardElement);
       })
       .finally(() => {
+        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,

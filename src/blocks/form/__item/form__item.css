@@ -13,7 +13,7 @@
 }
 
 .form__item::placeholder {
-  color: black;
+  color: #c4c4c4;
   line-height: 17px;
   font-size: 14px;
   font-weight: normal;

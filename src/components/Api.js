@@ -13,7 +13,7 @@ export default class Api {
   }
 
   // Получает карточки с сервера
-  getInitialCards() {
+  _getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
@@ -21,11 +21,15 @@ export default class Api {
   }
 
   // Получает информацию о пользователе с сервера
-  getUserInfo() {
+  _getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
       .then(this._getRequestResult);
+  }
+
+  getInitialData() {
+    return Promise.all([this._getUserInfo(), this._getInitialCards()]);
   }
 
   // Добавляет карточку на сервер
