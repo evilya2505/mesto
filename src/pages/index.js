@@ -102,12 +102,13 @@ const popupWithEditForm = new PopupWithForm({
     api.updateUserInfo(inputValues)
       .then((data) => {
         ProfileUserInfo.setUserInfo({ occupation: data.about, ...data });
+
+        this.close();
       })
       .catch(err => {
         console.log(err);
       })
       .finally(() => {
-        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,
@@ -135,12 +136,13 @@ const popupWithAvatarForm = new PopupWithForm({
     api.updateUserAvatar(inputValue)
       .then((data) => {
         ProfileUserInfo.setUserAvatar(data);
+
+        this.close();
       })
       .catch(err => {
         console.log(err);
       })
       .finally(() => {
-        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,
@@ -159,13 +161,12 @@ const popupWithDeleteConfirmation = new PopupWithDeleteConfirmation({
       .then(() => {
         cardElement.remove();
         cardElement = null;
+
+        this.close();
       })
       .catch(err => {
         console.log(err);
       })
-      .finally(() => {
-        this.close();
-      });
   }
 });
 popupWithDeleteConfirmation.setEventListeners();
@@ -230,9 +231,10 @@ const popupWithAddForm = new PopupWithForm({
         const cardElement = createNewCard({ placeName: cardData.name, ...cardData });
 
         cardList.addItem(cardElement);
+
+        this.close();
       })
       .finally(() => {
-        this.close();
         renderLoading({
           buttonElement: buttonElement,
           isLoading: false,
