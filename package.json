@@ -33,6 +33,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "core-js": "^3.14.0"
+    "core-js": "^3.14.0",
+    "glob-parent": "^6.0.1"
   }
 }
